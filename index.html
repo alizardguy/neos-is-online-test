@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>test</title>
+    </head>
+    <body>
+        <main>
+        <form>
+            <input type="text" id="userInput"/>
+            <input type="submit" onclick="fetchUserInfo();">
+        </form>
+        <h1 id="debug">test</h1>
+        </main>
+
+        <script>
+            function fetchUserInfo() {
+                console.log("running...")
+                var userInput = document.getElementById("userInput").value;
+                var url = "https://thingproxy.freeboard.io/fetch/http://api.neos.com/api/users/" + userInput;
+                console.log("Getting " + url);
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", url, true);
+                xhr.responseType = "json";
+                xhr.onreadystatechange = function() {
+                    var status = xhr.status;
+                    if (status == 200) {
+                        console.log(xhr.response);
+                        getElementById("debug").innerHTML = xhr.response;
+                    } else {
+                        console.log("error");
+                        getElementById("debug").innerHTML = "error";
+                    }
+                };
+            }
+        </script>
+    </body>
+</html>
