@@ -2,35 +2,41 @@
 <html>
     <head>
         <title>test</title>
+        <script src="./scripts/hate/jQuery.js"></script>
     </head>
     <body>
         <main>
-        <form>
-            <input type="text" id="userInput"/>
-            <input type="submit" onclick="fetchUserInfo();">
-        </form>
+
+        <input title="search" type="text" id="userInput" autocomplete="NeosUserID"/>
+        <button onclick="fetchUserInfo()">Fetch</button>
         <h1 id="debug">test</h1>
         </main>
 
         <script>
+            
             function fetchUserInfo() {
-                console.log("running...")
-                var userInput = document.getElementById("userInput").value;
-                var url = "https://thingproxy.freeboard.io/fetch/http://api.neos.com/api/users/" + userInput;
-                console.log("Getting " + url);
-                var xhr = new XMLHttpRequest();
-                xhr.open("GET", url, true);
-                xhr.responseType = "json";
-                xhr.onreadystatechange = function() {
-                    var status = xhr.status;
-                    if (status == 200) {
-                        console.log(xhr.response);
-                        getElementById("debug").innerHTML = xhr.response;
-                    } else {
-                        console.log("error");
-                        getElementById("debug").innerHTML = "error";
-                    }
+
+                inputUser = document.getElementById("userInput");
+
+                const settings = {
+	            "async": true,
+	            "crossDomain": true,
+	            "url": "https://http-cors-proxy.p.rapidapi.com/http://api.neos.com/api/users/" + userInput.value + "/status",
+	            "method": "GET",
+	            "headers": {
+		        "origin": "example.com",
+		        "x-requested-with": "example.com",
+		        "X-RapidAPI-Key": "ef4f415f32msh63275a31f9a4fe0p164117jsnc94041357b54",
+		        "X-RapidAPI-Host": "http-cors-proxy.p.rapidapi.com"
+	            }
                 };
+
+                console.log(settings.url);
+
+                $.ajax(settings).done(function (response) {
+	            console.log(response);
+                document.getElementById("debug").innerHTML = response.onlineStatus;
+                });
             }
         </script>
     </body>
